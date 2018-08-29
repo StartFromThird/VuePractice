@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 插值表达式 -->
+        <p>{{msg}}</p>
+
+        <p v-text="msg"></p>
+        <p v-text="content"></p>
+        <p v-html="content"></p>
+
+        <!-- 绑定事件 -->
+        <div v-on:click="changeMsg">v-on:click 点击这里 {{msg}}</div>
+        <div @click="changeMsg">@click 点击这里 {{msg}}</div><br>
+
+        <!-- 属性绑定 -->
+        <div v-bind:title="'鼠标hover显示：' + titleMsg">v-bind:title 绑个属性</div>
+        <div       :title="'鼠标hover显示：' + titleMsg">      :title 绑个属性</div><br>
+
+        <!-- 双向数据绑定 -->
+        <input type="text" v-model="inputVal">
+        <div>{{inputVal}}</div><br>
+
+        <!-- 计算属性 -->
+        姓：<input type="text" v-model="firstName">
+        名：<input type="text" v-model="lastName">
+        <div>computed计算属性结果： {{fullName}}</div>
+        <!-- 监听器 -->
+        <div>{{'watch 监听姓名变化' + count}}</div><br>
+
+        <!-- v-if v-show  -->
+        <div>DOM 插入删除
+            <h3 v-if="show">v-if</h3>
+        </div>
+        <div>DOM display:(inline-)block/none
+            <h3 v-show="show">v-show</h3>
+        </div>
+        <button @click="toggleClick">toggle</button>
+
+        <!-- v-for -->
+        <ul>
+            <li v-for="(item, index) of list" :key="index">{{index}}_{{item}}</li>
+        </ul>
+
+
+
+    </div>
+    <script>
+        new Vue({
+            el: "#root",
+            // template:'<p>{{msg}}</p>',
+
+            data: {
+                msg: "hello world",
+                content: "<span>这是一段html</span>",
+                titleMsg: "这是title属性",
+
+                inputVal: "v-model 双向绑定",
+                firstName: "张",
+                lastName: "三",
+                count: 0,
+
+                show: true,
+                list: [1, 2, 3]
+
+            },
+            // 绑定事件
+            methods: {
+                changeMsg: function(){
+                    this.msg = "这里改变了"
+                },
+                toggleClick: function(){
+                    this.show = !this.show;
+                }
+
+            },
+            // 计算属性
+            computed: {
+                fullName: function(){
+                    // 两个中一个改变才会重新计算，否则用缓存数值
+                    return this.firstName + this.lastName;
+                }
+            },
+            // 监听
+            watch: {
+                fullName: function(){
+                    this.count++
+                }
+
+            }
+
+        });
+    </script>
+</body>
+</html>
+
+
