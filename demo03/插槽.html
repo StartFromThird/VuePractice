@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插槽</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child>
+            <!-- 一次性传入多个  -->
+            <!-- <div>header</div> -->
+            <!-- <div>footer</div> -->
+
+            <!-- 具名插槽及其默认值 -->
+            <!-- <div slot="A">A</div> -->
+            <div slot="C">C</div>
+            <div slot="D">D</div>
+        </child>
+        <list>
+            <!-- 
+            作用域插槽 
+            父组件调子组件传相应的模板（这里li
+            必须要套template 
+            slot-scope= 从子组件接收数据
+            -->
+            <template slot-scope="props">
+                <li>{{props.item}}</li>
+            </template>
+        </list>
+        <list1>
+            <template slot-scope="pp">
+                <h3>{{pp.index}}--{{pp.item}}</h3>
+            </template>
+        </list1>
+    </div>
+    <script>
+        Vue.component('child', {
+            // child内为空时，显示slot默认
+            // template: `
+            //         <div>
+            //             <slot>default</slot>
+            //         </div>
+            //         `
+            
+            // 一次性传入多个      
+            // template: `<div><slot></slot></div>`
+
+            // 具名插槽及其默认值
+            template: `
+                    <div>
+                        <slot name="A">default A</slot>
+                        <div>B</div>
+                        <slot name="C"></slot>
+                        <slot name="D"></slot>
+                    </div>`                    
+        })
+        Vue.component('list', {
+            data: function(){
+                return {
+                    listArr: [1, 2, 3, 4]
+                }
+            },
+            template: `
+                    <div>
+                        <ul>
+                            <slot v-for="item of listArr" :item=item>{{item}}</slot>
+                        </ul>
+                    </div>`
+        })
+
+        Vue.component('list1', {
+            data: function(){
+                return {
+                    listArr1: [0, 9, 8]
+                }
+            },
+            template: `
+            <div>
+                <ul>
+                    <slot v-for="(i, index) of listArr1" :item=i :index=index></slot>
+                </ul>
+            </div>
+            `
+        })
+        var vm = new Vue({
+            el: '#app'
+        })
+    </script>
+    
+</body>
+</html>

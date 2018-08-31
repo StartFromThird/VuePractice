@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>样式绑定</title>
+    <script src="./vue.js"></script>
+    <style>
+        .actived{
+            color: #f00;
+        }
+        .activedOne{
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 改 class, class可以是对象，也可以是数组 -->
+        <div @click="changeClass" :class="{actived: isActived}">点击加减class</div>
+        <div @click="changeClass" :class="['actived',  activedOne]">点击加减class</div>
+        <!-- 改 style -->
+        <div @click="changeStyle" :style="styleObj">点击修改style</div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el : "#app",
+            data : {
+                isActived : false,
+                activedOne : "",
+                styleObj : {
+                    color : "black"
+                }
+            },
+            methods : {
+                changeClass: function(){
+                    this.isActived = !this.isActived;
+                    this.activedOne = (this.activedOne === "activedOne") ? "" : "activedOne";
+                },
+                changeStyle: function(){
+                    this.styleObj.color = (this.styleObj.color === "black") ? "red" : "black";
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-for="(item, index) of listArr">{{index}}- {{item}}</div>
+        <br>
+        <div v-for="(item, key, index) of listObj">{{index}}- {{key}}:{{item}}</div>
+        
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data : {
+                listArr: ["Alex", "Andy", "Ann"],
+                listObj:{
+                    name : "Nick",
+                    age : 28,
+                    gender : "M"
+                },
+            },
+        })
+        // vm.listArr.pop()
+        // "Ann"
+        // vm.listArr = ["A","B","C"]
+        // Vue.set(vm.listArr,3,"D")
+        // Vue.set(vm.listObj,"country","British")
+    </script>
+</body>
+</html>
