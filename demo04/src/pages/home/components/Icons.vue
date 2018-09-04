@@ -18,48 +18,51 @@
 <script>
 export default{
   name: 'HomeIcons',
+  props: {
+    iconList: Array
+  },
   data () {
     return {
       swiperOption: {
-        pagination: '.swiper-pagination'
-      },
-      iconList: [ {
-        id: '001',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/95/f3dd6c383aeb3b02.png',
-        desc: '景点门票'
-      }, {
-        id: '002',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/6a/45f595250c73d102.png',
-        desc: '夏日玩水'
-      }, {
-        id: '003',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/20/831d62d2e1c7be02.png',
-        desc: '名胜古迹'
-      }, {
-        id: '004',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1804/ff/fdf170ee89594b02.png',
-        desc: '必游榜单'
-      }, {
-        id: '005',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/e3/67df61427c8e1302.png',
-        desc: '演出'
-      }, {
-        id: '006',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/95/8246f27355943202.png',
-        desc: '游乐场'
-      }, {
-        id: '007',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/fa/2548667cb6e902.png',
-        desc: '逛博物馆'
-      }, {
-        id: '008',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1804/95/8d02011d149bdb02.png',
-        desc: '直通车'
-      }, {
-        id: '009',
-        iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/80/416c6ab3368d1f02.png',
-        desc: '全部玩乐'
-      }]
+        autoplay: false
+      }
+      // iconList: [ {
+      //   id: '001',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/95/f3dd6c383aeb3b02.png',
+      //   desc: '景点门票'
+      // }, {
+      //   id: '002',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/6a/45f595250c73d102.png',
+      //   desc: '夏日玩水'
+      // }, {
+      //   id: '003',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/20/831d62d2e1c7be02.png',
+      //   desc: '名胜古迹'
+      // }, {
+      //   id: '004',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1804/ff/fdf170ee89594b02.png',
+      //   desc: '必游榜单'
+      // }, {
+      //   id: '005',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/e3/67df61427c8e1302.png',
+      //   desc: '演出'
+      // }, {
+      //   id: '006',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/95/8246f27355943202.png',
+      //   desc: '游乐场'
+      // }, {
+      //   id: '007',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/fa/2548667cb6e902.png',
+      //   desc: '逛博物馆'
+      // }, {
+      //   id: '008',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1804/95/8d02011d149bdb02.png',
+      //   desc: '直通车'
+      // }, {
+      //   id: '009',
+      //   iconUrl: 'http://img1.qunarzz.com/piao/fusion/1803/80/416c6ab3368d1f02.png',
+      //   desc: '全部玩乐'
+      // }]
     }
   },
   computed: {

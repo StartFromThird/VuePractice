@@ -17,21 +17,24 @@
 <script>
 export default {
   name: 'HomeRecommend',
+  props: {
+    recommendList: Array
+  },
   data () {
     return {
-      recommendList: [{
-        id: '001',
-        imgUrl: 'http://img1.qunarzz.com/sight/p0/1509/53/5313f7a1f0386316.water.jpg_200x200_845d06e1.jpg',
-        title: '荆州楚王车马阵景区'
-      }, {
-        id: '002',
-        imgUrl: 'http://img1.qunarzz.com/sight/p0/1706/9d/9d2fa92a83ee0540a3.img.jpg_200x200_21fce863.jpg',
-        title: '悦兮半岛海洋梦幻水上乐园'
-      }, {
-        id: '003',
-        imgUrl: 'http://img1.qunarzz.com/sight/p0/1409/17/eef5507e97a8ea03844b8c71faeaf046.jpg_200x200_e922164f.jpg',
-        title: '张居正故居'
-      }]
+      // recommendList: [{
+      //   id: '001',
+      //   imgUrl: 'http://img1.qunarzz.com/sight/p0/1509/53/5313f7a1f0386316.water.jpg_200x200_845d06e1.jpg',
+      //   title: '荆州楚王车马阵景区'
+      // }, {
+      //   id: '002',
+      //   imgUrl: 'http://img1.qunarzz.com/sight/p0/1706/9d/9d2fa92a83ee0540a3.img.jpg_200x200_21fce863.jpg',
+      //   title: '悦兮半岛海洋梦幻水上乐园'
+      // }, {
+      //   id: '003',
+      //   imgUrl: 'http://img1.qunarzz.com/sight/p0/1409/17/eef5507e97a8ea03844b8c71faeaf046.jpg_200x200_e922164f.jpg',
+      //   title: '张居正故居'
+      // }]
     }
   }
 }
