@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多组件过渡</title>
+    <script src="./vue.js"></script>
+    <style>
+        /*淡入*/
+        .v-enter{
+            opacity: 0;
+        }
+        .v-enter-active{
+            transition: opacity 1s;
+        }
+        /*淡出*/
+        .v-leave-to{
+            opacity: 0;
+        }
+        .v-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+<div id="app">  
+    <transition mode="out-in">
+        <!-- 动态组件 -->
+        <component :is="type"></component>
+        <!-- <child-a v-if="isfade"></child-a>
+        <child-b v-else></child-b> -->
+    </transition>
+    <button @click="fade">click</button>    
+</div>
+
+<script>
+Vue.component('child-a', {
+    template: '<div>child-a</div>'
+})
+Vue.component('child-b', {
+    template: '<div>child-b</div>'
+})
+var vm = new Vue({
+    el: '#app',
+    data: {
+        type: 'child-a',
+        isfade: true
+    },
+    methods: {
+        fade: function(){
+            this.isfade = !this.isfade  
+            this.type = (this.type === 'child-a'?'child-b':'child-a')    
+        }
+    } 
+})
+
+</script>
+</body>
+</html>

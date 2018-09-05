@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动画封装</title>
+    <script src="./vue.js"></script>
+    <style>
+        .v-enter, .v-leave-to{
+            opacity: 0;
+        }
+        .v-enter-active, .v-leave-active{
+            transition: opacity 1s;
+        }   
+    </style>
+</head>
+<body>
+<div id="app">
+    <fade :show="isfade">
+        <div>transition: opacity</div>
+    </fade>
+    <button @click="fade">click</button>    
+    <!-- 应用 -->
+    <fade :show="isfade">
+        <h1>transition</h1>
+    </fade>
+</div>
+
+<script>
+// 封装
+Vue.component('fade', {
+    props: ['show'],
+    template: `
+        <transition>
+            <slot v-if="show"></slot>
+        </transition>`
+})
+var vm = new Vue({
+    el: '#app',
+    data: {
+        'isfade': true
+    },
+    methods: {
+        fade: function(){
+            this.isfade = !this.isfade      
+        }
+    }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多元素过渡</title>
+    <script src="./vue.js"></script>
+    <style>
+        /*淡入*/
+        .v-enter{
+            opacity: 0;
+        }
+        .v-enter-active{
+            transition: opacity 1s;
+        }
+        /*淡出*/
+        .v-leave-to{
+            opacity: 0;
+        }
+        .v-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+<div id="app">  
+    <transition mode="out-in">
+        <div v-if="isfade" key="A">show A</div>
+        <div v-else key="B">show B</div>
+    </transition>
+    <button @click="fade">click</button>    
+</div>
+
+<script>
+var vm = new Vue({
+    el: '#app',
+    data: {
+        'isfade': true
+    },
+    methods: {
+        fade: function(){
+            this.isfade = !this.isfade      
+        }
+    }
+})
+
+</script>
+</body>
+</html>

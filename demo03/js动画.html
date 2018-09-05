@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js动画钩子</title>
+    <script src="./vue.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+<div id="app">
+    <transition name="fade"
+    @before-enter="handleBeforeEnter"
+    @enter="handleEnter"
+    @after-enter="handleAfterEnter" > 
+        <div v-show="isfade">用js</div>
+    </transition>
+    <button @click="fade">click</button>    
+</div>
+
+<script>
+var vm = new Vue({
+    el: '#app',
+    data: {
+        'isfade': true
+    },
+    methods: {
+        fade: function(){
+            this.isfade = !this.isfade      
+        },
+        // 入场动画
+        handleBeforeEnter: function(el){
+            el.style.color = '#0f0'
+        },
+        handleEnter: function(el, done){
+            setTimeout(()=>{
+                el.style.color = '#f00'
+            }, 1000)
+            setTimeout(()=>{
+                done()
+            }, 2000)
+        },
+        handleAfterEnter: function(el){
+            el.style.color = '#000'
+        }
+    }
+})
+
+</script>
+</body>
+</html>

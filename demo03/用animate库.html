@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用animate</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <style>
+        .bounceIn{
+            transform-origin: left center;
+        }
+        /*transition和@keyframe同时写*/
+        .fade-leave-to {
+            opacity: 0;
+        }
+        .fade-leave-active{
+            transition: opacity 3s;
+        }
+    </style>
+<div id="app">
+    <transition name="fade" 
+    appear 
+    appear-active-class="animated bounceIn" 
+    enter-active-class="animated bounceIn"
+    leave-active-class="animated hinge fade-leave-active">
+        <div v-show="isfade">Fade</div>        
+    </transition>
+    <button @click="fade">click</button>    
+</div>
+
+<script>
+var vm = new Vue({
+    el: '#app',
+    data: {
+        'isfade': true
+    },
+    methods: {
+        fade: function(){
+            this.isfade = !this.isfade      
+        }
+    }
+})
+
+</script>
+</body>
+</html>
