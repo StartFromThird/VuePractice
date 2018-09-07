@@ -5,14 +5,14 @@
         <div class="title border-topbottom">当前城市</div>
           <div class="button-list">
             <div class="button-wrapper">
-              <div class="button">荆州</div>
+              <div class="button">{{this.currentCity}}</div>
             </div>
           </div>
       </div>
       <div class="area">
         <div class="title border-topbottom">热门城市</div>
         <div class="button-list">
-          <div class="button-wrapper" v-for="item of hotCities" :key="item.id">
+          <div class="button-wrapper" v-for="item of hotCities" :key="item.id" @click="handleCityClick(item.name)">
             <div class="button">{{item.name}}</div>
           </div>
           <!-- <div class="button-wrapper">
@@ -23,7 +23,7 @@
       <div class="area" v-for="(item, key) of cities" :key="key" :ref="key">
         <div class="title border-topbottom">{{key}}</div>
         <div class="item-list">
-          <div class="item border-bottom" v-for="i of item" :key="i.id">{{i.name}}</div>
+          <div class="item border-bottom" v-for="i of item" :key="i.id" @click="handleCityClick(i.name)">{{i.name}}</div>
         </div>
 <!--         <div class="title border-topbottom">B</div>
         <div class="item-list">
@@ -37,6 +37,7 @@
 
 <script>
 import BScroll from 'better-scroll'
+import { mapState, mapMutations } from 'vuex'
 
 export default{
   name: 'CityList',
@@ -44,6 +45,22 @@ export default{
     hotCities: Array,
     cities: Object,
     letter: String
+  },
+  computed: {
+    ...mapState({
+      currentCity: 'city'
+    })
+  },
+  methods: {
+    handleCityClick (city) {
+      // dispatch 派发 action--changeCity, 附带参数city
+      // this.$store.dispatch('changeCity', city)
+      // this.$store.commit('changeCity', city)
+      this.changeCity(city)
+      // 编程示导航 跳转到home
+      this.$router.push('/')
+    },
+    ...mapMutations(['changeCity'])
   },
   mounted () {
     // 使用 BetterScroll
