@@ -20,7 +20,7 @@
           </div> -->
         </div>
       </div>
-      <div class="area" v-for="(item, key) of cities" :key="key">
+      <div class="area" v-for="(item, key) of cities" :key="key" :ref="key">
         <div class="title border-topbottom">{{key}}</div>
         <div class="item-list">
           <div class="item border-bottom" v-for="i of item" :key="i.id">{{i.name}}</div>
@@ -42,11 +42,19 @@ export default{
   name: 'CityList',
   props: {
     hotCities: Array,
-    cities: Object
+    cities: Object,
+    letter: String
   },
   mounted () {
     // 使用 BetterScroll
     this.scroll = new BScroll(this.$refs.wrapper)
+  },
+  watch: {
+    // 监听传来letter变化，滑动到对应位置
+    letter () {
+      const ele = this.$refs[this.letter][0]
+      this.scroll.scrollToElement(ele)
+    }
   }
 }
 </script>
