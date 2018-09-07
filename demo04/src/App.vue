@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <!-- 当前路由地址所对应的内容 -->
-    <router-view/>
+    <!-- 避免反复重渲染导致的性能问题 -->
+    <keep-alive>
+      <!-- 当前路由地址所对应的内容 -->
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
