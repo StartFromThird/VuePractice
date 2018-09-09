@@ -68,6 +68,7 @@ export default{
 .header-fixed
   position fixed
   top 0px
+  z-index 1
   width 100%
   height 0.86rem
   background $bgColor
