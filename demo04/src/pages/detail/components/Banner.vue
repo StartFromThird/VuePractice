@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="banner" @click="handleBannerShow">
-      <img src="http://img1.qunarzz.com/sight/p0/1509/53/5313f7a1f0386316.water.jpg_600x330_88128d16.jpg" alt="" class="banner-img">
+      <img :src="bannerImg" alt="" class="banner-img">
       <div class="banner-info">
-        <div class="banner-title">荆州楚王车马阵景区</div>
-        <div class="banner-icon"><span class="iconfont">&#xe6ee;</span> 39</div>
+        <div class="banner-title">{{sightName}}</div>
+        <div class="banner-icon"><span class="iconfont">&#xe6ee;</span> {{gallaryImgs.length}}</div>
       </div>
     </div>
-    <common-gallary :imgs="imgs" v-show="showGallery" @close="handleGalleryClose"></common-gallary>
+    <common-gallary :imgs="gallaryImgs" v-show="showGallery" @close="handleGalleryClose"></common-gallary>
   </div>
 </template>
 
@@ -18,20 +18,25 @@ export default{
   components: {
     CommonGallary
   },
+  props: {
+    sightName: String,
+    bannerImg: String,
+    gallaryImgs: Array
+  },
   data () {
     return {
-      imgs:["http://img1.qunarzz.com/sight/p0/1803/2e/2ee74981c5f7e0a4a3.img.jpg_r_800x800_1189225b.jpg",
-        "http://img1.qunarzz.com/sight/p0/1803/20/20bc07e39751824a3.img.jpg_350x240_05c33076.jpg"],
+      // imgs: ["http://img1.qunarzz.com/sight/p0/1803/2e/2ee74981c5f7e0a4a3.img.jpg_r_800x800_1189225b.jpg",
+      //   "http://img1.qunarzz.com/sight/p0/1803/20/20bc07e39751824a3.img.jpg_350x240_05c33076.jpg"],
       showGallery: false
     }
   },
   methods: {
     // 显示画廊
-    handleBannerShow() {
+    handleBannerShow () {
       this.showGallery = true
     },
     // 隐藏画廊
-    handleGalleryClose() {
+    handleGalleryClose () {
       this.showGallery = false
     }
   }
