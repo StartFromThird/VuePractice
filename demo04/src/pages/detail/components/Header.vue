@@ -27,7 +27,9 @@ export default{
     // 拖动页面 景点详情透明度变化及显示隐藏
     handleScroll () {
       // 元素的顶部到它的最顶部可见内容（的顶部）的距离的垂直度量
-      const top = document.documentElement.scrollTop
+      // const top = document.documentElement.scrollTop
+      // 兼容写法
+      const top = (window.parent.document.documentElement.scrollTop || window.parent.document.body.scrollTop) || (document.body.scrollTop + document.documentElement.scrollTop) || (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0)
       // console.log(top)
       if (top > 60) {
         let opacity = top / 140
@@ -39,12 +41,21 @@ export default{
       }
     }
   },
-  activated () {
-    // 监听滚动,这里是全局监听，会影响其他组件
+  // keep-alive exclude="Detail" 不会执行activated()
+  // activated () {
+  //   // 监听滚动,这里是全局监听，会影响其他组件
+  //   window.addEventListener('scroll', this.handleScroll)
+  // },
+  // deactivated 页面隐藏或要替换成新页面时调用
+  // deactivated () {
+  //   // 解绑全局事件
+  //   window.removeEventListener('scroll', this.handleScroll)
+  // },
+  created () {
+    // 监听滚动,这里是全局监听，不解绑其他组件scroll也会调handleScroll
     window.addEventListener('scroll', this.handleScroll)
   },
-  // deactivated 页面隐藏或要替换成新页面时调用
-  deactivated () {
+  beforeDestroy () {
     // 解绑全局事件
     window.removeEventListener('scroll', this.handleScroll)
   }
@@ -82,7 +93,7 @@ export default{
     height 0.86rem
     // display block
     .fixed-back-icon
-      text-align: center
-      font-size: 0.4rem
+      text-align center
+      font-size 0.4rem
       color #fff
 </style>
