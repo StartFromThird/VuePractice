@@ -7,7 +7,7 @@
           <img class="item-img" :src="item.imgUrl" alt="">
           <div class="item-info">
             <p class="item-title">{{item.title}}</p>
-            <p class="item-desc">{{item.title}}</p>
+            <p class="item-desc">{{item.desc}}</p>
             <button class="item-button">查看详情</button>
           </div>
       </router-link>

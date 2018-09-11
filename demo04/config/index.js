@@ -11,12 +11,17 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+        // 开发环境下更改目录
         '/api' : {
             target: 'http://localhost:8080',
             pathRewrite: {
                 '^/api': '/static/mock/'
             }
         }
+        // '/api' : {
+        //     // 接口地址
+        //     target: 'http://localhost:80',
+        // }        
     },
 
     // Various Dev Server settings

@@ -1,7 +1,8 @@
 <template>
   <ul class="list">
+    <!-- .prevent 修饰符阻止默认事件 -->
     <li class="item" v-for="item of letters" :key="item" :ref="item"
-    @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd"
+    @touchstart.prevent="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd"
     @click="handleLetterClick(item)"
     >{{item}}</li>
     <!-- <li class="item">B</li> -->
@@ -59,7 +60,7 @@ export default{
           if (index >= 0 && index < this.alphabetLen) {
             this.$emit('change', this.letters[index])
           }
-        }, 20)
+        }, 15)
       }
     },
     handleTouchEnd () {
@@ -79,10 +80,12 @@ export default{
     top 1.58rem
     right 0
     bottom 0
-    width 0.4rem
+    width 0.6rem
+    overflow hidden
     .item
       height 0.4rem
       line-height 0.4rem
       text-align center
       color $bgColor
+      z-index 1
 </style>
