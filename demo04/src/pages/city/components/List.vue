@@ -63,8 +63,13 @@ export default{
     ...mapMutations(['changeCity'])
   },
   mounted () {
-    // 使用 BetterScroll
-    this.scroll = new BScroll(this.$refs.wrapper)
+    // better-scroll 参数配置
+    // better-scroll 默认会阻止浏览器的原生 click 事件
+    // 设置为 true，better-scroll 会派发一个 click 事件
+    this.scroll = new BScroll(this.$refs.wrapper, {
+      click: true,
+      tap: true
+    })
   },
   watch: {
     // 监听传来letter变化，滑动到对应位置
