@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>非父子组件传参</title>
+  <script src="./vue.js"></script>    
+</head>
+<body>
+  <div id="app">
+    <p>总线机制(Bus,发布订阅模式)</p>
+    <child content="AAA"></child>
+    <child content="BBB"></child>
+    <p>又一个例子，input-num传值给total-num</p>
+    <input-num></input-num>+
+    <input-num></input-num>=
+    <total-num></total-num>
+  </div>
+  <script>
+    // 每个创建的实例都会有bus属性
+    Vue.prototype.bus = new Vue()
+    // 子组件 1
+    var child = {
+      template: '<div @click="handleClick">{{childCon}}</div>',
+      props: {
+        content: String
+      },
+      data () {
+        return {
+          childCon: this.content
+        }
+      },
+      methods: {
+        handleClick () {
+          // console.log(this.childCon)
+          this.bus.$emit('change', this.childCon)
+        }
+      },
+      mounted: function(){
+        var _this = this
+        this.bus.$on('change', function(msg) {
+          console.log(msg)
+          _this.childCon = msg
+        })
+      }
+    }
+    // 子组件 2
+    var inputNum = {
+      template: '<input v-model="addNum" @blur="handleBlur">',
+      data() {
+        return {
+          addNum: 0,
+          addExNum: 0
+        }
+      },
+      methods: {
+        handleBlur() {
+          // 传值出去
+          // console.log("A", this.addNum, this.addExNum)
+          this.bus.$emit('addNumChange', this.addNum, this.addExNum)
+          this.addExNum = this.addNum
+        }
+      }
+    }
+    var totalNum = {
+      template: '<span>{{addResult}}</span>',
+      data() {
+        return {
+          addResult: 0
+        }
+      },
+      mounted: function(){
+        var _this = this
+        // 监听对应addNumChange事件
+        this.bus.$on('addNumChange', function(addNum, addExNum) {
+          _this.addResult = _this.addResult - Number(addExNum) + Number(addNum)
+        })
+      }
+    }
+    // 父组件
+    var vm = new Vue({
+        el: '#app',
+        components: {
+          child,
+          totalNum,
+          inputNum
+        }
+    })
+</script>
+<style>
+  input{
+    width: 20px;
+  }
+</style>
+</body>
+</html>

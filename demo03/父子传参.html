@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父子传参</title>
+    <script src="./vue.js"></script>    
+</head>
+<body>
+    <div id="app">
+        <p>父子组件传值</p>
+        <!-- ：attr  父组件向子组件 通过属性传递参数 -->
+        <!-- @：事件 父组件通过监听子组件触发事件，获取参数 -->
+        <counter :count="0" @plus="recountTotal"></counter>
+        <counter :count="1" @plus="recountTotal"></counter>
+        <div>{{total}}</div>
+
+        <p>参数校验</p>
+        <!-- 报错 -->
+        <!-- <only-num :content="a world"></only-num> -->
+        <!-- 显示100， 因为要必传，会报错 -->
+        <!-- <only-num></only-num> -->
+        <!-- 报错验证失败，会正常显示 -->
+        <!-- <only-num :content="-10"></only-num> -->
+        <only-num :content="10"></only-num>
+
+        <p>非props属性</p>
+        <unprop content="10"></unprop>
+
+    </div>
+    <script>
+        // 子组件1
+        var counter = {
+            // 父组件向子组件传参数
+            // 子组件不能修改父组件发过来的参数。避免引用类型同一参数被多个子组件修改。
+            // 故把参数复制一份给data
+            props: ['count'],
+            data () {
+                return {
+                    countNum: this.count
+                }
+            },
+            template: '<div @click="handleClick">{{countNum}}</div>',
+            methods: {
+                handleClick () {
+                    this.countNum++
+                    // 子组件向父组件传参数 触发plus事件
+                    this.$emit('plus', 1)
+                }
+            }
+        }
+        // 子组件2 参数校验
+        var onlyNum = {
+            props: {
+                content: {
+                    type: Number,
+                    // // 多类型写法
+                    // type: [String, Number]
+                    // 是否必须
+                    required: true,
+                    // 默认
+                    default: 100,
+                    // 自定义校验器
+                    validator: function (value) {
+                        return (this.value > 0)
+                    }
+                }
+            },
+            data () {
+                return {
+                    numContent: this.content
+                }
+            },
+            template: '<div>{{numContent}}</div>'
+        }
+        // 子组件3 非props属性
+        var unprop = {
+            // 传来的属性数值获取不到
+            // 非props属性显示在DOM里
+            template: '<div>非props属性显示在DOM里</div>'
+        }
+        // 父组件
+        var vm = new Vue({
+            el: '#app',
+            components: {
+                counter: counter,
+                onlyNum: onlyNum,
+                unprop: unprop
+            },
+            data: {
+                total: 1
+            },
+            methods: {
+                // 父组件接收监听plus,调用对应函数，且同时获取参数
+                recountTotal (i) {
+                    console.log("father pass the Num:" + i )
+                    this.total++
+                }
+            }
+        })
+    </script>
+</body>
+</html>
