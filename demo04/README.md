@@ -1,6 +1,8 @@
 # Vue2.5开发去哪儿网App 从零基础入门到实战项目  
 
 ## 环境配置  
+<img align="right" src="https://raw.githubusercontent.com/StartFromThird/VuePractice/master/show/travel.gif"/>  
+
 * 安装node, webpack  
 * 码云创建仓库，git bash 生成公钥贴回码云  
 * 复制SSH地址克隆到本地，git clone SSH地址    
