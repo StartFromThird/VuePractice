@@ -1,4 +1,4 @@
-# Vue2.5开发去哪儿网App 从零基础入门到实战项目  
+# Vue2.5开发去哪儿网  
 
 ## 环境配置  
 <img align="right" src="https://raw.githubusercontent.com/StartFromThird/VuePractice/master/show/travel.gif"/>  
