@@ -1,4 +1,4 @@
-# Vue2.5开发去哪儿网App 从零基础入门到实战项目  
+# Vue2.5开发去哪儿网  
 
 ## 环境配置  
 <img align="right" src="https://raw.githubusercontent.com/StartFromThird/VuePractice/master/show/travel.gif"/>  
@@ -95,8 +95,10 @@
 * 图标库选择图标添加到项目，下载文件，记录Unicode
 * 字体文件(svg ttf wolf eot) + iconfont.css 放入assets下，注意修改iconfont.css下字体文件引用路径   
 * main.js 引入  
-* 应用： <span class="iconfont">&#xe6ee;</span>  
-
+* 应用： 
+  ```html
+  <span class="iconfont">&#xe6ee;</span>  
+  ```
 ## git 命令
 * 提交到本地缓存 git add .  
 * 本地缓存提交到本地仓库 git commit -m '描述内容'  
