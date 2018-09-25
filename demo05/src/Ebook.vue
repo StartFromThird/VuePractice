@@ -4,10 +4,13 @@
     <!-- <slide-up-animation></slide-up-animation> -->
     <title-bar :isShow="isTitleAndMenuShow"></title-bar>
     <menu-bar ref="menuBar"
-              :defaultFontSize="defaultFontSize"
               :isShow="isTitleAndMenuShow"
+              :defaultFontSize="defaultFontSize"
               :fontSizeList="fontSizeList"
-              @fontSizeChanged="changeDefaultFontSize">
+              @fontSizeChanged="changeDefaultFontSize"
+              :defaultTheme="defaultTheme"
+              :themeList="themeList"
+              @themeChanged="changeDefaultTheme">
     </menu-bar>
     <div class="read-wrapper">
       <div id="read"></div>
@@ -34,8 +37,37 @@ export default {
   data () {
     return {
       isTitleAndMenuShow: false,
+      // 文本大小
       fontSizeList: [12, 14, 16, 18, 20, 22, 24],
-      defaultFontSize: 16
+      defaultFontSize: 16,
+      // 显示主题
+      themeList: [
+        {
+          name: 'default',
+          style: {
+            body: {'color': '#000', 'background': '#F5F5DC'}
+          }
+        },
+        {
+          name: 'eye',
+          style: {
+            body: {'color': '#000', 'background': '#afce9c'}
+          }
+        },
+        {
+          name: 'night',
+          style: {
+            body: {'color': '#ccc', 'background': '#000'}
+          }
+        },
+        {
+          name: 'gold',
+          style: {
+            body: {'color': '#000', 'background': '#FFDEAD'}
+          }
+        }
+      ],
+      defaultTheme: 'default'
     }
   },
   methods: {
@@ -52,6 +84,9 @@ export default {
       this.rendition.display()
       // themes.fontSize 设置渲染电子书字体大小
       this.themes = this.rendition.themes
+      // this.themes.register(name, styles) 注册电子书主题样式
+      // this.themes.select(name) 设置电子书主题样式
+      this.themesRegister()
     },
     // 向前翻页
     prevPage () {
@@ -81,6 +116,18 @@ export default {
       if (this.themes) {
         this.themes.fontSize(i + 'px')
       }
+    },
+    // 注册主题样式
+    themesRegister () {
+      this.themeList.forEach((i) => {
+        this.themes.register(i.name, i.style)
+      })
+    },
+    // 更改主题样式
+    changeDefaultTheme (name) {
+      // let name = this.themeList[i].name
+      this.themes.select(name)
+      this.defaultTheme = name
     }
   },
   mounted () {
@@ -103,15 +150,15 @@ export default {
       height:100%;
       .left{
         flex: 0 0 px2rem(130);
-        background: rgba(255, 0, 0, 0.2);
+        // background: rgba(255, 0, 0, 0.2);
       }
       .center{
         flex: 1;
-        background: rgba(0, 255, 0, 0.2);
+        // background: rgba(0, 255, 0, 0.2);
       }
       .right{
         flex: 0 0 px2rem(130);
-        background: rgba(0, 0, 255, 0.2);
+        // background: rgba(0, 0, 255, 0.2);
       }
     }
   }

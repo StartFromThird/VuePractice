@@ -2,17 +2,17 @@
   <div class="menu-bar">
     <!-- 底部菜单 -->
     <slide-up-animation>
-      <div class="menu-wrapper" v-show='isShow' :class="{'hide-shadow': isSettingShow||isShow}">
-        <div class="icon-wrapper">
+      <div class="menu-wrapper" v-show="isShow" :class="{'hide-shadow': isSettingShow||isShow}">
+        <div class="icon-wrapper" @click="showSetting(0)">
           <span class="iconfont">≡</span>
         </div>
-        <div class="icon-wrapper">
+        <div class="icon-wrapper" @click="showSetting(1)">
           <span class="iconfont">&#xe65c;</span>
         </div>
-        <div class="icon-wrapper">
+        <div class="icon-wrapper" @click="showSetting(2)">
           <span class="iconfont">&#xe60e;</span>
         </div>
-        <div class="icon-wrapper"  @click="showSetting">
+        <div class="icon-wrapper"  @click="showSetting(3)">
           <span class="iconfont">A</span>
         </div>
       </div>
@@ -20,7 +20,15 @@
     <!-- 设置 -->
     <slide-up-animation>
       <div class="setting-wrapper" v-show="isSettingShow">
-        <div class="setting-font-size">
+        <!-- 主题样式设置 -->
+        <div class="setting-theme" v-if="settingIndex===2">
+          <div class="select-wrapper" v-for="(item) of themeList" :key="item.name" @click="changeTheme(item.name)">
+            <div class="preview" :style="{background: item.style.body.background}"></div>
+            <div class="select" :class="{'selected': item.name==defaultTheme}">{{item.name}}</div>
+          </div>
+        </div>
+        <!-- 字号设置 -->
+        <div class="setting-font-size" v-else-if="settingIndex===3">
           <div class="preview" :style="{fontSize: fontSizeList[0] + 'px'}">A</div>
           <!-- 字号选择条 -->
           <div class="select">
@@ -56,23 +64,30 @@ export default {
       default: false
     },
     defaultFontSize: Number,
-    fontSizeList: Array
+    fontSizeList: Array,
+    defaultTheme: String,
+    themeList: Array
   },
   data () {
     return {
-      isSettingShow: false
+      isSettingShow: false,
+      settingIndex: -1
     }
   },
   methods: {
-    showSetting () {
+    showSetting (i) {
       this.isSettingShow = true
-      console.log(this.defaultFontSize)
+      this.settingIndex = i
+      // console.log(this.defaultFontSize)
     },
     hideSetting () {
       this.isSettingShow = false
     },
     changeFontSize (i) {
       this.$emit('fontSizeChanged', i)
+    },
+    changeTheme (name) {
+      this.$emit('themeChanged', name)
     }
   }
 }
@@ -172,6 +187,39 @@ export default {
                 background: #333;
               }
             }
+          }
+        }
+      }
+    }
+    .setting-theme {
+      height: 100%;
+      display: flex;
+      background: #fff;
+      z-index: 2;
+      .select-wrapper {
+        cursor: pointer;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        padding: px2rem(5);
+        .preview{
+          flex: 1;
+          box-sizing: border-box;
+          &.border{
+            border: 1px solid #ccc;
+            border: 1px solid #f00;
+          }
+        }
+        .select{
+          flex: 0 0 px2rem(20);
+          font-size: px2rem(14);
+          background: #ccc;
+          color: #999;
+          // color: #00f;
+          @include center;
+          &.selected{
+            color: #333;
           }
         }
       }
