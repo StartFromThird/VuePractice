@@ -46,6 +46,19 @@
           </div>
           <div class="preview" :style="{fontSize: fontSizeList[fontSizeList.length - 1] + 'px'}">A</div>
         </div>
+        <!-- 进度条设置 -->
+        <div class="setting-progress"  v-else-if="settingIndex===1">
+          <div class="progress-wrapper">
+            <input ref="progress" class="progress"
+                  type="range" max="100" min="0" step="1"
+                  :value="progress" :disable="!bookAvailable"
+                  @input="onProgressInput($event.target.value)"
+                  @change="onProgressChange($event.target.value)">
+          </div>
+          <div class="text-wrapper">
+            <span>{{bookAvailable ? progress + "%" : "加载中"}}</span>
+          </div>
+        </div>
       </div>
     </slide-up-animation>
   </div>
@@ -66,12 +79,17 @@ export default {
     defaultFontSize: Number,
     fontSizeList: Array,
     defaultTheme: String,
-    themeList: Array
+    themeList: Array,
+    bookAvailable: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
       isSettingShow: false,
-      settingIndex: -1
+      settingIndex: -1,
+      progress: 0
     }
   },
   methods: {
@@ -88,6 +106,16 @@ export default {
     },
     changeTheme (name) {
       this.$emit('themeChanged', name)
+    },
+    // @input 拖动进度条触发事件
+    onProgressInput (p) {
+      this.progress = p
+      // 修改backgroundSize实现拖动时进度条左侧样式变化
+      this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
+    },
+    // @change 松开进度条触发事件
+    onProgressChange (p) {
+      this.$emit('progressChanged', p)
     }
   }
 }
@@ -222,6 +250,50 @@ export default {
             color: #333;
           }
         }
+      }
+    }
+    .setting-progress {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      .progress-wrapper {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding: 0 px2rem(30);
+        @include center;
+        // range input设置样式
+        .progress {
+          width: 100%;
+          // 覆盖默认样式
+          -webkit-appearance: none;
+          height: px2rem(2);
+          background: -webkit-linear-gradient(#333,#333) no-repeat, #ddd;
+          // background: -webkit-linear-gradient(#00f,#00f) no-repeat, #f00;
+          background-size: 0 100%;
+          &:focus{
+            outline: none;
+          }
+          // 拖动手柄样式
+          &::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            height: px2rem(20);
+            width: px2rem(20);
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .15);
+            border: px2rem(1) solid #ccc;
+          }
+        }
+      }
+      .text-wrapper{
+        position: absolute;
+        left: 0;
+        bottom: px2rem(5);
+        width: 100%;
+        color: #333;
+        font-size: px2rem(12);
+        text-align: center;
       }
     }
   }

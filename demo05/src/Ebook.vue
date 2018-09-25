@@ -10,7 +10,9 @@
               @fontSizeChanged="changeDefaultFontSize"
               :defaultTheme="defaultTheme"
               :themeList="themeList"
-              @themeChanged="changeDefaultTheme">
+              @themeChanged="changeDefaultTheme"
+              :bookAvailable="bookAvailable"
+              @progressChanged="changeProgress">
     </menu-bar>
     <div class="read-wrapper">
       <div id="read"></div>
@@ -67,7 +69,8 @@ export default {
           }
         }
       ],
-      defaultTheme: 'default'
+      defaultTheme: 'default',
+      bookAvailable: false
     }
   },
   methods: {
@@ -87,6 +90,19 @@ export default {
       // this.themes.register(name, styles) 注册电子书主题样式
       // this.themes.select(name) 设置电子书主题样式
       this.themesRegister()
+      // this.book.locations 电子书定位
+      // epub.js钩子函数 解析完成调用 ready
+      this.book.ready.then(() => {
+        // 生成对象定位符  字符串数组
+        return this.book.locations.generate()
+      }).then(result => {
+        // console.log(result)
+        this.locations = this.book.locations
+        // locations加载完后，才可使用拖动进度条
+        this.bookAvailable = true
+        // 仅用于进度条测试
+        // this.changeProgress(10)
+      })
     },
     // 向前翻页
     prevPage () {
@@ -128,6 +144,14 @@ export default {
       // let name = this.themeList[i].name
       this.themes.select(name)
       this.defaultTheme = name
+    },
+    // 依据进度条位置p(p在0--100之间)，更改当前页面
+    changeProgress (p) {
+      const percent = p / 100
+      // this.locations.cfiFromPercentage(50%) 传入%生成location
+      const location = percent > 0 ? this.locations.cfiFromPercentage(percent) : 0
+      // 跳转到location对应页面
+      this.rendition.display(location)
     }
   },
   mounted () {
