@@ -20,8 +20,21 @@
     <!-- 设置 -->
     <slide-up-animation>
       <div class="setting-wrapper" v-show="isSettingShow">
+        <!-- 进度条设置 -->
+        <div class="setting-progress"  v-if="settingIndex===1">
+          <div class="progress-wrapper">
+            <input ref="progress" class="progress"
+                  type="range" max="100" min="0" step="1"
+                  :value="progress" :disable="!bookAvailable"
+                  @input="onProgressInput($event.target.value)"
+                  @change="onProgressChange($event.target.value)">
+          </div>
+          <div class="text-wrapper">
+            <span>{{bookAvailable ? progress + "%" : "加载中"}}</span>
+          </div>
+        </div>
         <!-- 主题样式设置 -->
-        <div class="setting-theme" v-if="settingIndex===2">
+        <div class="setting-theme" v-else-if="settingIndex===2">
           <div class="select-wrapper" v-for="(item) of themeList" :key="item.name" @click="changeTheme(item.name)">
             <div class="preview" :style="{background: item.style.body.background}"></div>
             <div class="select" :class="{'selected': item.name==defaultTheme}">{{item.name}}</div>
@@ -46,30 +59,32 @@
           </div>
           <div class="preview" :style="{fontSize: fontSizeList[fontSizeList.length - 1] + 'px'}">A</div>
         </div>
-        <!-- 进度条设置 -->
-        <div class="setting-progress"  v-else-if="settingIndex===1">
-          <div class="progress-wrapper">
-            <input ref="progress" class="progress"
-                  type="range" max="100" min="0" step="1"
-                  :value="progress" :disable="!bookAvailable"
-                  @input="onProgressInput($event.target.value)"
-                  @change="onProgressChange($event.target.value)">
-          </div>
-          <div class="text-wrapper">
-            <span>{{bookAvailable ? progress + "%" : "加载中"}}</span>
-          </div>
-        </div>
       </div>
     </slide-up-animation>
+    <!-- 电子书目录 -->
+    <catalog-view v-show="isCatalogShow"
+                  :navigation="navigation"
+                  @jumpTo="jumpTo"
+                  :bookAvailable="bookAvailable">
+    </catalog-view>
+    <fade-animation>
+      <div class="catalog-mask"
+            v-show="isCatalogShow" @click="hideCatalog">
+      </div>
+    </fade-animation>
   </div>
 </template>
 
 <script>
 import SlideUpAnimation from '../common/SlideUp'
+import FadeAnimation from '../common/Fade'
+import CatalogView from './Catalog'
 export default {
   name: 'TitleBar',
   components: {
-    SlideUpAnimation
+    SlideUpAnimation,
+    FadeAnimation,
+    CatalogView
   },
   props: {
     isShow: {
@@ -83,20 +98,30 @@ export default {
     bookAvailable: {
       type: Boolean,
       default: false
-    }
+    },
+    navigation: Object
   },
   data () {
     return {
       isSettingShow: false,
       settingIndex: -1,
-      progress: 0
+      progress: 0,
+      isCatalogShow: false
     }
   },
   methods: {
     showSetting (i) {
-      this.isSettingShow = true
-      this.settingIndex = i
-      // console.log(this.defaultFontSize)
+      if (i === 0) {
+        // Catalog
+        this.isSettingShow = false
+        this.isCatalogShow = true
+      } else {
+        this.isSettingShow = true
+        this.settingIndex = i
+      }
+    },
+    hideCatalog () {
+      this.isCatalogShow = false
     },
     hideSetting () {
       this.isSettingShow = false
@@ -116,6 +141,9 @@ export default {
     // @change 松开进度条触发事件
     onProgressChange (p) {
       this.$emit('progressChanged', p)
+    },
+    jumpTo (href) {
+      this.$emit('jumpTo', href)
     }
   }
 }
@@ -297,6 +325,15 @@ export default {
       }
     }
   }
+  .catalog-mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 3;
+    display: flex;
+    background: rgba(51, 51, 51, .8);
+  }
 }
-
 </style>

@@ -12,7 +12,9 @@
               :themeList="themeList"
               @themeChanged="changeDefaultTheme"
               :bookAvailable="bookAvailable"
-              @progressChanged="changeProgress">
+              @progressChanged="changeProgress"
+              :navigation="navigation"
+              @jumpTo="jumpTo">
     </menu-bar>
     <div class="read-wrapper">
       <div id="read"></div>
@@ -70,7 +72,8 @@ export default {
         }
       ],
       defaultTheme: 'default',
-      bookAvailable: false
+      bookAvailable: false,
+      navigation: {}
     }
   },
   methods: {
@@ -93,6 +96,9 @@ export default {
       // this.book.locations 电子书定位
       // epub.js钩子函数 解析完成调用 ready
       this.book.ready.then(() => {
+        // 生成目录
+        this.navigation = this.book.navigation
+        // console.log("this.navigation", this.navigation)
         // 生成对象定位符  字符串数组
         return this.book.locations.generate()
       }).then(result => {
@@ -152,7 +158,15 @@ export default {
       const location = percent > 0 ? this.locations.cfiFromPercentage(percent) : 0
       // 跳转到location对应页面
       this.rendition.display(location)
+    },
+    jumpTo (href) {
+      // 跳转到对应位置，title menu catalog 恢复到初始状态
+      this.rendition.display(href)
+      this.isTitleAndMenuShow = false
+      this.$refs.menuBar.hideSetting()
+      this.$refs.menuBar.hideCatalog()
     }
+    // hideTitle
   },
   mounted () {
     this.showEpub()
