@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue生命周期</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          a: 1
+        },
+        template: "<div>{{ this.a }}</div>",
+        // === 以下是生命周期函数，某个时间点会自动执行 ===
+        beforeCreate: function () {
+          console.log('beforeCreate a is: ', this.a)
+        },
+        // 实例创建完成
+        // 已经完成：数据观测 (data observer)，属性和方法的运算，watch/event 事件回调
+        created: function () {
+          console.log('created a is: ' + this.a)
+        },
+
+        // 模板和数据挂载前
+        beforeMount: function () {
+          console.log('beforeMount');
+          console.log(this.$el);
+        },
+        // 以上还没有挂载 div#app里啥也没有
+        // 以下挂载上
+        // 挂载后
+        mounted: function () {
+          console.log('mounted');
+          console.log(this.$el);
+        },
+
+        // data改变触发以下两个 vm.a = 2
+        // 数据重新渲染前
+        beforeUpdate: function () {
+          console.log('beforeUpdate');
+        },
+        // 数据重新渲染后
+        updated: function () {
+          console.log('updated');
+        },
+
+        // 触发 vm.$destroy() 会调用以下两个
+        // 实例销毁前
+        beforeDestroy: function () {
+          console.log('beforeDestroy');
+        },
+        // 拆除 数据监听，事件监听，子组件
+        // 实例销毁后
+        destroyed: function () {
+          console.log('destroyed');
+        }
+      })
+    </script>
+</body>
+</html>
