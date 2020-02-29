@@ -25,7 +25,7 @@ export default {
   },
   beforeDestroy() {
     // 自定义事件 解绑
-    event.$on("addItem", this.add);
+    event.$off("addItem", this.add);
   },
   watch: {},
   methods: {
